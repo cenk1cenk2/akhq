@@ -6,7 +6,7 @@ on:
       - master
       - dev
     tags:
-      - '*'
+      - "*"
 
   pull_request:
     branches:
@@ -57,7 +57,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 17
 
       # Gradle check
@@ -71,7 +71,7 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         if: success() || failure()
         with:
-          report_paths: '**/build/test-results/**/TEST-*.xml'
+          report_paths: "**/build/test-results/**/TEST-*.xml"
 
       # Shadow Jar, Tar and Zip
       - name: Build jars and distribution archives
@@ -101,7 +101,7 @@ jobs:
         env:
           REPO: ${{ github.repository }}
         with:
-          package-dir: 'client/package.json'
+          package-dir: "client/package.json"
 
       # GitHub Release
       - name: Create GitHub release
@@ -145,7 +145,7 @@ jobs:
         if: github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/')
         with:
           images: |
-            tchiotludo/akhq
+            cenk1cenk2/akhq
             ghcr.io/${{ github.repository }}
           tags: |
             # set latest tag for master branch
@@ -166,14 +166,14 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
       # Slack
-      - name: Slack notification
-        uses: 8398a7/action-slack@v3
-        if: ${{ always() && env.SLACK_WEBHOOK_URL != 0 }}
-        with:
-          status: ${{ job.status }}
-          username: Github Actions
-          icon_emoji: ':github-actions:'
-          channel: 'C03H9CEBGS2'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # - name: Slack notification
+      #   uses: 8398a7/action-slack@v3
+      #   if: ${{ always() && env.SLACK_WEBHOOK_URL != 0 }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     username: Github Actions
+      #     icon_emoji: ":github-actions:"
+      #     channel: "C03H9CEBGS2"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
